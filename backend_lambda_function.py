@@ -1,4 +1,7 @@
 def lambda_handler(event, context):
-    response = "Hello world!"
+    response = {
+        "statusCode": 200,
+        "body": "Hello world!"
+    }
 
     return response
