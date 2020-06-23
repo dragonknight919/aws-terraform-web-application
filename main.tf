@@ -125,6 +125,15 @@ resource "aws_lambda_permission" "api_invoke_lambda" {
   source_arn = "${aws_api_gateway_rest_api.minimal_api.execution_arn}/*/*"
 }
 
-output "api_url" {
-  value = aws_api_gateway_deployment.minimal.invoke_url
+resource "aws_s3_bucket" "minimal_frontend_bucket" {
+  website {
+    index_document = "index.html"
+  }
+}
+
+resource "aws_s3_bucket_object" "minimal_index" {
+  bucket = aws_s3_bucket.minimal_frontend_bucket.id
+  key    = "index.html"
+  source = "./index.html"
+  acl    = "public-read"
 }
