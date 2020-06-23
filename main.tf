@@ -132,8 +132,9 @@ resource "aws_s3_bucket" "minimal_frontend_bucket" {
 }
 
 resource "aws_s3_bucket_object" "minimal_index" {
-  bucket = aws_s3_bucket.minimal_frontend_bucket.id
-  key    = "index.html"
-  source = "./index.html"
-  acl    = "public-read"
+  bucket       = aws_s3_bucket.minimal_frontend_bucket.id
+  key          = "index.html"
+  source       = "./index.html"
+  acl          = "public-read"
+  content_type = "text/html"
 }
