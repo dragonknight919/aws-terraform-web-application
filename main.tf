@@ -40,9 +40,24 @@ data "aws_iam_policy_document" "function_assume_role_policy" {
 }
 
 resource "aws_iam_role" "function_assume_role" {
-  name = "serverless_example_lambda"
+  name = "lambda-dynamodb-role"
 
   assume_role_policy = data.aws_iam_policy_document.function_assume_role_policy.json
+}
+
+data "aws_iam_policy_document" "function_permissions" {
+  statement {
+    sid       = "LambdaDynamodb"
+    actions   = ["dynamodb:Scan"]
+    resources = [aws_dynamodb_table.minimal_backend_table.arn]
+  }
+}
+
+resource "aws_iam_role_policy" "function_permissions" {
+  name = "lambda-dynamodb-policy"
+  role = aws_iam_role.function_assume_role.id
+
+  policy = data.aws_iam_policy_document.function_permissions.json
 }
 
 resource "aws_api_gateway_rest_api" "minimal_api" {
