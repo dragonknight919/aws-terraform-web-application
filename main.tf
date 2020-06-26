@@ -138,3 +138,13 @@ resource "aws_s3_bucket_object" "minimal_index" {
   acl          = "public-read"
   content_type = "text/html"
 }
+
+resource "aws_s3_bucket_object" "minimal_script" {
+  bucket = aws_s3_bucket.minimal_frontend_bucket.id
+  key    = "index.js"
+  content = templatefile(
+    "./index.js",
+    { api_url = aws_api_gateway_deployment.minimal.invoke_url }
+  )
+  acl = "public-read"
+}
