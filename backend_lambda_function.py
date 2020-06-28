@@ -4,7 +4,29 @@ import json
 
 def lambda_handler(event, context):
     dynamodb = boto3.client("dynamodb")
-    table_scan = dynamodb.scan(TableName="minimal-backend-table")
+    table_name = "minimal-backend-table"
+    table_scan = dynamodb.scan(TableName=table_name)
+
+    # check for POST, otherwise default to GET
+    if event["httpMethod"] == "POST":
+
+        table_item_ids = [
+            int(item["id"]["N"])
+            for item in table_scan["Items"]
+        ]
+        table_item_ids.append(0)
+
+        new_id = max(table_item_ids) + 1
+
+        dynamodb.put_item(
+            TableName=table_name,
+            Item={
+                "id": {"N": str(new_id)},
+                "name": {"S": event["body"]}
+            }
+        )
+
+        table_scan = dynamodb.scan(TableName=table_name)
 
     items = [
         {"id": item["id"]["N"], "name": item["name"]["S"]}

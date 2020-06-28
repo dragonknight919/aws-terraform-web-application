@@ -48,7 +48,7 @@ resource "aws_iam_role" "function_assume_role" {
 data "aws_iam_policy_document" "function_permissions" {
   statement {
     sid       = "LambdaDynamodb"
-    actions   = ["dynamodb:Scan"]
+    actions   = ["dynamodb:Scan", "dynamodb:PutItem"]
     resources = [aws_dynamodb_table.minimal_backend_table.arn]
   }
 }
