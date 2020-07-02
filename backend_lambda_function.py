@@ -21,6 +21,22 @@ def lambda_handler(event, context):
                     }
                 }
             )
+        elif request["operation"] == "update":
+            dynamodb.update_item(
+                TableName=table_name,
+                Key={
+                    "id": {
+                        "N": request["id"]
+                    }
+                },
+                UpdateExpression="SET #n = :new_name",
+                ExpressionAttributeNames={"#n": "name"},
+                ExpressionAttributeValues={
+                    ":new_name": {
+                        "S": request["name"]
+                    }
+                }
+            )
         else:
             table_item_ids = [
                 int(item["id"]["N"])
