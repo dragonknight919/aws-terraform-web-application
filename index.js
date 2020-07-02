@@ -16,6 +16,15 @@ var minimalApp = new function () {
             idCell.innerHTML = tableEntries[entryNumber]["id"];
             var nameCell = tr.insertCell(-1);
             nameCell.innerHTML = tableEntries[entryNumber]["name"];
+
+            this.td = document.createElement('td');
+            tr.appendChild(this.td);
+
+            var btDelete = document.createElement('input');
+            btDelete.setAttribute('type', 'button');
+            btDelete.setAttribute('value', 'Delete');
+            btDelete.setAttribute('onclick', 'minimalApp.updateBackEnd(this)');
+            this.td.appendChild(btDelete);
         }
 
         tr = table.insertRow(-1);
@@ -35,7 +44,7 @@ var minimalApp = new function () {
         var btNew = document.createElement('input');
         btNew.setAttribute('type', 'button');
         btNew.setAttribute('value', 'Create');
-        btNew.setAttribute('onclick', 'minimalApp.createItem(this)');
+        btNew.setAttribute('onclick', 'minimalApp.updateBackEnd(this)');
         this.td.appendChild(btNew);
 
         var div = document.getElementById("minimal-table");
@@ -43,7 +52,7 @@ var minimalApp = new function () {
         div.appendChild(table);
     }
 
-    this.createItem = function (oButton) {
+    this.updateBackEnd = function (oButton) {
 
         var xhttp = new XMLHttpRequest();
 
@@ -59,9 +68,22 @@ var minimalApp = new function () {
 
         var activeRow = oButton.parentNode.parentNode.rowIndex;
         var tab = document.getElementById('minimalTable').rows[activeRow];
-        var td = tab.getElementsByTagName("td")[1];
 
-        xhttp.send(td.childNodes[0].value);
+        if (oButton.value == "Delete") {
+
+            var td = tab.getElementsByTagName("td")[0];
+
+            payload = JSON.stringify({ "operation": "delete", "id": td.innerHTML })
+        }
+        // default to create
+        else {
+
+            var td = tab.getElementsByTagName("td")[1];
+
+            payload = JSON.stringify({ "operation": "create", "name": td.childNodes[0].value })
+        }
+
+        xhttp.send(payload);
     }
 }
 

@@ -10,21 +10,33 @@ def lambda_handler(event, context):
     # check for POST, otherwise default to GET
     if event["httpMethod"] == "POST":
 
-        table_item_ids = [
-            int(item["id"]["N"])
-            for item in table_scan["Items"]
-        ]
-        table_item_ids.append(0)
+        request = json.loads(event["body"])
 
-        new_id = max(table_item_ids) + 1
+        if request["operation"] == "delete":
+            dynamodb.delete_item(
+                TableName=table_name,
+                Key={
+                    "id": {
+                        "N": request["id"]
+                    }
+                }
+            )
+        else:
+            table_item_ids = [
+                int(item["id"]["N"])
+                for item in table_scan["Items"]
+            ]
+            table_item_ids.append(0)
 
-        dynamodb.put_item(
-            TableName=table_name,
-            Item={
-                "id": {"N": str(new_id)},
-                "name": {"S": event["body"]}
-            }
-        )
+            new_id = max(table_item_ids) + 1
+
+            dynamodb.put_item(
+                TableName=table_name,
+                Item={
+                    "id": {"N": str(new_id)},
+                    "name": {"S": request["name"]}
+                }
+            )
 
         table_scan = dynamodb.scan(TableName=table_name)
 
