@@ -4,7 +4,7 @@ With such a title, who still needs a project description ;)
 
 ## Project purpose
 
-This is a continuation of one of my other projects: [Minimal AWS serverless full-stack CRUD web application](https://github.com/dragonmstr/minimal-full-stack-app-aws) (mind the word minimal).
+This is a continuation of one of my other projects: [Minimal AWS serverless full-stack CRUD web application](https://github.com/dragonmstr/terraform-script) (mind the word minimal).
 This project aims to deploy a more complete serverless app in AWS.
 I chose for Terraform, because I find HCL easier to read than CFN YAML/JSON.
 Also, I think Terraform gives you a clearer picture of what is going on beneath the blankets than Amplify.
