@@ -4,7 +4,7 @@ With such a title, who still needs a project description ;)
 
 ## Project purpose
 
-This is a continuation of one of my other projects: [Minimal AWS serverless full-stack CRUD web application](https://github.com/Carlovo/minimal-full-stack-app-aws) (mind the word minimal).
+This is a continuation of one of my other projects: [Minimal AWS serverless full-stack CRUD web application](https://github.com/dragonmstr/minimal-full-stack-app-aws) (mind the word minimal).
 This project aims to deploy a more complete serverless app in AWS.
 I chose for Terraform, because I find HCL easier to read than CFN YAML/JSON.
 Also, I think Terraform gives you a clearer picture of what is going on beneath the blankets than Amplify.
@@ -93,7 +93,7 @@ That's why this Terraform code has 'one variable to rule them all': `workspace_v
 This variable can contain sets of all sub-variables and can select a set based on the current workspace.
 Sets of those variables can then be put in vars file which Terraform reads upon apply.
 This greatly simplifies applying a Terraform configuration with a complicated set of variables.
-For more explanation and examples see this [blog post](https://dev.to/carlovo/input-variables-file-for-multiple-terraform-workspaces-19f7) and/or [this gist](https://gist.github.com/Carlovo/42dcf2b2f62972891e374699552c14c2).
+For more explanation and examples see this [blog post](https://dev.to/dragonmstr/input-variables-file-for-multiple-terraform-workspaces-19f7) and/or [this gist](https://gist.github.com/dragonmstr/42dcf2b2f62972891e374699552c14c2).
 
 ### Terraform output
 
